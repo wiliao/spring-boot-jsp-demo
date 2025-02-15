@@ -6,6 +6,7 @@
 <html>
     <head>
         <title>Conversion by JSP expression tag</title>
+        <script>
             var jsMsg = '<%=jspMsg%>';
             console.info(jsMsg);
         </script>
