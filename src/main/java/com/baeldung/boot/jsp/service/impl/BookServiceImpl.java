@@ -7,7 +7,7 @@ import java.util.stream.Collectors;
 import com.baeldung.boot.jsp.exception.DuplicateBookException;
 import org.springframework.stereotype.Service;
 
-import com.baeldung.boot.jsp.dto.Book;
+import com.baeldung.boot.jsp.dto.BookDTO;
 import com.baeldung.boot.jsp.repository.BookRepository;
 import com.baeldung.boot.jsp.repository.model.BookData;
 import com.baeldung.boot.jsp.service.BookService;
@@ -22,7 +22,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Collection<Book> getBooks() {
+    public Collection<BookDTO> getBooks() {
         return bookRepository.findAll()
             .stream()
             .map(BookServiceImpl::convertBookData)
@@ -30,7 +30,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Book addBook(Book book) {
+    public BookDTO addBook(BookDTO book) {
         final Optional<BookData> existingBook = bookRepository.findById(book.getIsbn());
         if (existingBook.isPresent()) {
             throw new DuplicateBookException(book);
@@ -40,11 +40,11 @@ public class BookServiceImpl implements BookService {
         return convertBookData(savedBook);
     }
 
-    private static Book convertBookData(BookData bookData) {
-        return new Book(bookData.getIsbn(), bookData.getName(), bookData.getAuthor());
+    private static BookDTO convertBookData(BookData bookData) {
+        return new BookDTO(bookData.getIsbn(), bookData.getName(), bookData.getAuthor());
     }
 
-    private static BookData convertBook(Book book) {
+    private static BookData convertBook(BookDTO book) {
         return new BookData(book.getIsbn(), book.getName(), book.getAuthor());
     }
 }

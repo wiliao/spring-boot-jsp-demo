@@ -22,7 +22,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.support.AnnotationConfigContextLoader;
 
-import com.baeldung.boot.jsp.dto.Book;
+import com.baeldung.boot.jsp.dto.BookDTO;
 import com.baeldung.boot.jsp.exception.DuplicateBookException;
 import com.baeldung.boot.jsp.repository.BookRepository;
 import com.baeldung.boot.jsp.repository.impl.InMemoryBookRepository;
@@ -39,7 +39,7 @@ public class BookServiceIntegrationTest {
     @Test
     @Order(1)
     public void givenNoAddedBooks_whenGetAllBooks_thenReturnInitialBooks() {
-        Collection<Book> storedBooks = bookService.getBooks();
+        Collection<BookDTO> storedBooks = bookService.getBooks();
 
         assertEquals(3, storedBooks.size());
         assertThat(storedBooks, hasItem(hasProperty("isbn", equalTo("ISBN-TEST-1"))));
@@ -50,8 +50,8 @@ public class BookServiceIntegrationTest {
     @Test
     @Order(2)
     public void givenBookNotAlreadyExists_whenAddBook_thenReturnSuccessfully() {
-        Book bookToBeAdded = new Book("ISBN-ADD-TEST-4", "Added Book 4", "Added Book 4 Author");
-        Book storedBook = bookService.addBook(bookToBeAdded);
+        BookDTO bookToBeAdded = new BookDTO("ISBN-ADD-TEST-4", "Added Book 4", "Added Book 4 Author");
+        BookDTO storedBook = bookService.addBook(bookToBeAdded);
 
         assertEquals(bookToBeAdded.getIsbn(), storedBook.getIsbn());
     }
@@ -59,7 +59,7 @@ public class BookServiceIntegrationTest {
     @Test
     @Order(3)
     public void givenBookAlreadyExists_whenAddBook_thenDuplicateBookException() {
-        Book bookToBeAdded = new Book("ISBN-ADD-TEST-4", "Updated Book 4", "Updated Book 4 Author");
+        BookDTO bookToBeAdded = new BookDTO("ISBN-ADD-TEST-4", "Updated Book 4", "Updated Book 4 Author");
 
         assertThrows(DuplicateBookException.class, () -> bookService.addBook(bookToBeAdded));
     }

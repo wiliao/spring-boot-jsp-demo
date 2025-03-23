@@ -7,7 +7,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Book {
+public class BookDTO {
     private String isbn;
     private String name;
     private String author;

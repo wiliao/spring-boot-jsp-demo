@@ -27,7 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import com.baeldung.boot.jsp.dto.Book;
+import com.baeldung.boot.jsp.dto.BookDTO;
 import com.baeldung.boot.jsp.service.BookService;
 
 @WebMvcTest(BookController.class)
@@ -53,12 +53,12 @@ class BookControllerUnitTest {
         ResultActions addBookViewResult = mockMvc.perform(get("/book/addBook"));
 
         addBookViewResult.andExpect(view().name("add-book"))
-            .andExpect(model().attribute("book", isA(Book.class)));
+            .andExpect(model().attribute("book", isA(BookDTO.class)));
     }
 
     @Test
     public void whenAddBookPost_thenRedirectToAddBookView() throws Exception {
-        when(bookService.addBook(any(Book.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
+        when(bookService.addBook(any(BookDTO.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
         MockHttpServletRequestBuilder addBookRequest = MockMvcRequestBuilders.post("/book/addBook")
             .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
             .param("isbn", "isbn1")
@@ -72,11 +72,11 @@ class BookControllerUnitTest {
             .andExpect(flash().attribute("addBookSuccess", true));
     }
 
-    private static Collection<Book> existingBooks() {
-        List<Book> books = new ArrayList<>();
-        books.add(new Book("isbn1", "name1", "author1"));
-        books.add(new Book("isbn2", "name2", "author2"));
-        books.add(new Book("isbn3", "name3", "author3"));
+    private static Collection<BookDTO> existingBooks() {
+        List<BookDTO> books = new ArrayList<>();
+        books.add(new BookDTO("isbn1", "name1", "author1"));
+        books.add(new BookDTO("isbn2", "name2", "author2"));
+        books.add(new BookDTO("isbn3", "name3", "author3"));
         return books;
     }
 }

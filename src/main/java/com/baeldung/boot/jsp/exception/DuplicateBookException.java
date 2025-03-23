@@ -1,13 +1,14 @@
 package com.baeldung.boot.jsp.exception;
 
-import com.baeldung.boot.jsp.dto.Book;
+import com.baeldung.boot.jsp.dto.BookDTO;
+
 import lombok.Getter;
 
 @Getter
 public class DuplicateBookException extends RuntimeException {
-    private final Book book;
+    private final BookDTO bookDTO;
 
-    public DuplicateBookException(Book book) {
-        this.book = book;
+    public DuplicateBookException(BookDTO bookDTO) {
+        this.bookDTO = bookDTO;
     }
 }

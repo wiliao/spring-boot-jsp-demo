@@ -19,7 +19,7 @@ import org.mockito.AdditionalAnswers;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import com.baeldung.boot.jsp.dto.Book;
+import com.baeldung.boot.jsp.dto.BookDTO;
 import com.baeldung.boot.jsp.exception.DuplicateBookException;
 import com.baeldung.boot.jsp.repository.BookRepository;
 import com.baeldung.boot.jsp.repository.model.BookData;
@@ -36,7 +36,7 @@ public class BookServiceImplUnitTest {
         when(bookRepository.findAll()).thenReturn(existingBooks());
         BookService bookService = new BookServiceImpl(bookRepository);
 
-        Collection<Book> storedBooks = bookService.getBooks();
+        Collection<BookDTO> storedBooks = bookService.getBooks();
         assertEquals(3, storedBooks.size());
         assertThat(storedBooks, hasItem(hasProperty("isbn", equalTo("isbn1"))));
         assertThat(storedBooks, hasItem(hasProperty("isbn", equalTo("isbn2"))));
@@ -48,7 +48,7 @@ public class BookServiceImplUnitTest {
         when(bookRepository.findById(anyString())).thenReturn(Optional.empty());
         when(bookRepository.add(any(BookData.class))).thenAnswer(AdditionalAnswers.returnsFirstArg());
         BookService bookService = new BookServiceImpl(bookRepository);
-        Book book = bookService.addBook(new Book("isbn1", "name1", "author1"));
+        BookDTO book = bookService.addBook(new BookDTO("isbn1", "name1", "author1"));
 
         assertEquals("isbn1", book.getIsbn());
         assertEquals("name1", book.getName());
@@ -60,7 +60,7 @@ public class BookServiceImplUnitTest {
         BookData existingBook = new BookData("isbn1", "name1", "author1");
         when(bookRepository.findById("isbn1")).thenReturn(Optional.of(existingBook));
         BookService bookService = new BookServiceImpl(bookRepository);
-        Book bookToBeAdded = new Book("isbn1", "name1", "author1");
+        BookDTO bookToBeAdded = new BookDTO("isbn1", "name1", "author1");
 
         assertThrows(DuplicateBookException.class, () -> bookService.addBook(bookToBeAdded));
     }

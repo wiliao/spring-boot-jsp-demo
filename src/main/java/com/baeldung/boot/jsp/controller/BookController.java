@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 
-import com.baeldung.boot.jsp.dto.Book;
+import com.baeldung.boot.jsp.dto.BookDTO;
 import com.baeldung.boot.jsp.service.BookService;
 
 @Controller
@@ -30,14 +30,14 @@ public class BookController {
 
     @GetMapping("/addBook")
     public String addBookView(Model model) {
-        model.addAttribute("book", new Book());
+        model.addAttribute("book", new BookDTO());
         return "add-book";
     }
 
     @PostMapping("/addBook")
-    public RedirectView addBook(@ModelAttribute("book") Book book, RedirectAttributes redirectAttributes) {
+    public RedirectView addBook(@ModelAttribute("book") BookDTO book, RedirectAttributes redirectAttributes) {
         final RedirectView redirectView = new RedirectView("/book/addBook", true);
-        Book savedBook = bookService.addBook(book);
+        BookDTO savedBook = bookService.addBook(book);
         redirectAttributes.addFlashAttribute("savedBook", savedBook);
         redirectAttributes.addFlashAttribute("addBookSuccess", true);
         return redirectView;

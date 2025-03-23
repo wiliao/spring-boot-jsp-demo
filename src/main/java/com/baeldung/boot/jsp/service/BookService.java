@@ -2,10 +2,10 @@ package com.baeldung.boot.jsp.service;
 
 import java.util.Collection;
 
-import com.baeldung.boot.jsp.dto.Book;
+import com.baeldung.boot.jsp.dto.BookDTO;
 
 public interface BookService {
-    Collection<Book> getBooks();
+    Collection<BookDTO> getBooks();
 
-    Book addBook(Book book);
+    BookDTO addBook(BookDTO book);
 }
